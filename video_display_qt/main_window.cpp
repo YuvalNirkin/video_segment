@@ -29,7 +29,11 @@
 #include "video_display_qt/main_window.h"
 
 #include "base/base_impl.h"
-#include <QtGui>
+//#include <QtGui>
+#include <QLabel>
+#include <QSlider>
+#include <QGridLayout>
+#include <QMouseEvent>
 
 static constexpr int kQtBorder = 11 * 2; // 11 for default qt margin | *2 for both sides.
 

@@ -32,8 +32,10 @@
 #include <boost/thread.hpp>
 #include <boost/thread/thread_time.hpp>
 
-#include <QtGui/QApplication>
-#include <QtGui/QMainWindow>
+//#include <QtGui/QApplication>
+//#include <QtGui/QMainWindow>
+#include <QApplication>
+#include <QMainWindow>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>

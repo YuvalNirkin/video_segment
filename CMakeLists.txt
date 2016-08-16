@@ -43,6 +43,8 @@ find_package(protobuf REQUIRED)
 
 find_package(FFMPEG REQUIRED)
 
+find_package(Qt5Widgets REQUIRED)
+
 # Set build output directories
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -58,6 +60,7 @@ add_subdirectory(segmentation)
 add_subdirectory(seg_tree_sample)
 add_subdirectory(segment_converter)
 add_subdirectory(segment_viewer)
+add_subdirectory(video_display_qt)
 
 # Export configuration
 # ===================================================
