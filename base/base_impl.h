@@ -53,7 +53,7 @@ namespace base {
 std::string StringPrintf(const char* format, ...);
 
 // Returns true, if file exists.
-bool FileExists(const std::string& file);
+//bool FileExists(const std::string& file);
 
 }  // namespace base.
 

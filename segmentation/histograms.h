@@ -155,8 +155,11 @@ private:
   // weight_sum.
   double weight_sum_ = 0.0;
 
-  std::array<float, 3> mean_{ {0.f, 0.f, 0.f} };
-  std::array<float, 3> var_{ {0.f, 0.f, 0.f} };
+  // Not support in Visual Studio 2013 and older
+  //std::array<float, 3> mean_{ {0.f, 0.f, 0.f} };
+  //std::array<float, 3> var_{ {0.f, 0.f, 0.f} };
+  std::array<float, 3> mean_;   // Default to {0, 0, 0}
+  std::array<float, 3> var_;    // Default to {0, 0, 0}
 
   bool is_sparse_ = false;
   bool is_normalized_ = false;

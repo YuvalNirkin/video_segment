@@ -37,6 +37,11 @@
 
 namespace segmentation {
 
+	// Hack to compile with Visual Studio 2015 that for some reason doesn't support
+	// member constexpr
+	template <class SegTraits>
+	static constexpr int descriptor_size() { return SegTraits::region_descriptor_size(); };
+
 // FastSegmentationGraph is templated with traits/policy class that are required to
 // supply the following information (see pixel_distance.h for specific implementations).
 //
@@ -236,7 +241,7 @@ protected:
   void PrintBucketListStats();
 
 protected:
-  static constexpr int descriptor_size() { return SegTraits::region_descriptor_size(); };
+//  static constexpr int descriptor_size() { return SegTraits::region_descriptor_size(); };
 
   struct Edge {
     Edge (int r1, int r2) : region_1(r1), region_2(r2) {}
@@ -262,7 +267,7 @@ protected:
     int sz = 0;               // Size in pixels.
     int constraint_id = -1;   // unconstrained
     bool region_finalized = false;   // True, if region does not accept any more merges.
-    std::array<float, descriptor_size()> descriptor;
+    std::array<float, descriptor_size<SegTraits>()> descriptor;
   };
 
   // Returns representative for specified start_id.

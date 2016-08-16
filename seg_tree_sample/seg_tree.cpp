@@ -42,6 +42,8 @@
 #include "video_framework/video_pipeline.h"
 #include "video_framework/video_writer_unit.h"
 
+#include <boost/filesystem.hpp>	// For exists
+
 #ifndef NO_X_SUPPORT
 #ifdef WITH_QT
 #include "video_display_qt/video_display_qt_unit.h"
@@ -122,7 +124,8 @@ int main(int argc, char** argv) {
       FLAGS_input_file.substr(0, FLAGS_input_file.find_last_of(".")) + ".flow";
   bool use_flow_from_file = false;
   if (FLAGS_flow) {
-    use_flow_from_file = base::FileExists(flow_file);
+	  use_flow_from_file = boost::filesystem::exists(flow_file);
+    //use_flow_from_file = base::FileExists(flow_file);
   }
 
   // Setup the actual video units.

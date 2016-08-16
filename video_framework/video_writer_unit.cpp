@@ -141,7 +141,7 @@ bool VideoWriterUnit::OpenStreams(StreamSet* set) {
   codec_context_ = video_stream_->codec;
   const std::string file_ending = video_file_.substr(video_file_.size() - 3);
   if (file_ending == "mp4" || file_ending == "mov") {
-    codec_context_->codec_id = CODEC_ID_H264;
+      codec_context_->codec_id = AV_CODEC_ID_H264;//
   } else {
     codec_context_->codec_id = output_format_->video_codec;
   }
@@ -158,17 +158,17 @@ bool VideoWriterUnit::OpenStreams(StreamSet* set) {
   LOG(INFO) << "time base : " << codec_context_->time_base.num
             << " / " << codec_context_->time_base.den;
 
-  codec_context_->pix_fmt = PIX_FMT_YUV420P;
+  codec_context_->pix_fmt = AV_PIX_FMT_YUV420P;//
 
-  if (codec_context_->codec_id == CODEC_ID_MPEG2VIDEO) {
+  if (codec_context_->codec_id == AV_CODEC_ID_MPEG2VIDEO) {//
     codec_context_->max_b_frames = 2;
   }
 
-  if (codec_context_->codec_id == CODEC_ID_MPEG1VIDEO) {
+  if (codec_context_->codec_id == AV_CODEC_ID_MPEG1VIDEO) {//
     codec_context_->mb_decision = 2;
   }
 
-  if (codec_context_->codec_id == CODEC_ID_H264) {
+  if (codec_context_->codec_id == AV_CODEC_ID_H264) {//
     // H264 settings.
     codec_context_->coder_type = FF_CODER_TYPE_AC;
     codec_context_->flags |= CODEC_FLAG_LOOP_FILTER | CODEC_FLAG_GLOBAL_HEADER;
@@ -219,12 +219,12 @@ bool VideoWriterUnit::OpenStreams(StreamSet* set) {
   avpicture_fill((AVPicture*)frame_encode_, encode_buffer, codec_context_->pix_fmt,
                  codec_context_->width, codec_context_->height);
 
-  uint8_t* bgr_buffer = (uint8_t*)av_malloc(avpicture_get_size(PIX_FMT_BGR24,
+  uint8_t* bgr_buffer = (uint8_t*)av_malloc(avpicture_get_size(AV_PIX_FMT_BGR24,//
                                                                frame_width_,
                                                                frame_height_));
   avpicture_fill((AVPicture*)frame_bgr_,
                  bgr_buffer,
-                 PIX_FMT_BGR24,
+                 AV_PIX_FMT_BGR24,//
                  frame_width_,
                  frame_height_);
 
@@ -241,7 +241,7 @@ bool VideoWriterUnit::OpenStreams(StreamSet* set) {
   // Setup color conversion.
   sws_context_ = sws_getContext(frame_width_,
                                 frame_height_,
-                                PIX_FMT_BGR24,
+                                AV_PIX_FMT_BGR24,//
                                 codec_context_->width,
                                 codec_context_->height,
                                 codec_context_->pix_fmt,
@@ -350,7 +350,7 @@ bool VideoWriterUnit::PostProcess(list<FrameSetPtr>* append) {
   av_free(frame_bgr_->data[0]);
   av_free(frame_bgr_);
 
-  for (uint i = 0; i < format_context_->nb_streams; ++i) {
+  for (unsigned int i = 0; i < format_context_->nb_streams; ++i) {
     av_freep(&format_context_->streams[i]->codec);
     av_freep(&format_context_->streams);
   }

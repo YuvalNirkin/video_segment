@@ -33,7 +33,8 @@
 #include <cstdio>
 
 #include <boost/pending/disjoint_sets.hpp>
-#include <opencv2/core/core.hpp>
+#include <opencv2/core.hpp>//
+#include <opencv2/imgproc.hpp>//
 
 #ifdef _WIN32
 #undef min
@@ -1204,7 +1205,9 @@ void RasterVectorization(const Vectorization& vec,
     // Remove edges that reached maximum y.
     for (auto pos = aet.begin(); pos != aet.end(); ) {
       if (pos->y_max < y + 1) {
-        aet.erase(pos);
+        //aet.erase(pos);
+		  // Yuval
+		  pos = aet.erase(pos);
       } else {
         ++pos;
       }

@@ -1,5 +1,6 @@
 find_package(Boost REQUIRED)
-find_package(OpenCV2 REQUIRED)
+#find_package(OpenCV2 REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(Protobuf REQUIRED)
 
 set(DEPENDENT_PACKAGES base

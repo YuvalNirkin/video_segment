@@ -77,8 +77,17 @@ class Segmentation;
 // Abstract base class for a descriptor. Implement for each descriptor.
 class RegionDescriptor : public base::TypedType {
  public:
+	 RegionDescriptor()
+		 : base::TypedType(), parent_region_(0)
+	 {
+		 setType(&typeid(*this));
+	 }
+
   RegionDescriptor(const std::type_info* type)
-      : base::TypedType(type), parent_region_(0) { }
+      : base::TypedType(), parent_region_(0) 
+  {
+	  setType(type);
+  }
   RegionDescriptor(const RegionDescriptor&) = default;
 
   virtual ~RegionDescriptor() = 0;
@@ -132,7 +141,10 @@ class RegionDescriptor : public base::TypedType {
 // Generic base class to start the extraction process.
 class RegionDescriptorExtractor : public base::TypedType {
  public:
-  RegionDescriptorExtractor(const std::type_info* type) : base::TypedType(type) { }
+  RegionDescriptorExtractor() : base::TypedType()
+  {
+	  setType(&typeid(*this));
+  }
   RegionDescriptorExtractor(const RegionDescriptorExtractor&) = default;
   virtual ~RegionDescriptorExtractor() = 0;
 
@@ -146,7 +158,15 @@ typedef std::vector<std::shared_ptr<RegionDescriptorExtractor>> DescriptorExtrac
 // Updater for region descriptors.
 class RegionDescriptorUpdater : public base::TypedType {
  public:
-  RegionDescriptorUpdater(const std::type_info* type) : base::TypedType(type) { }
+	 RegionDescriptorUpdater() : base::TypedType()
+	 {
+		 setType(&typeid(*this));
+	 }
+
+  RegionDescriptorUpdater(const std::type_info* type) : base::TypedType()
+  {
+	  setType(type);
+  }
   virtual ~RegionDescriptorUpdater() {}
 
   // Called after every hierarchical stage completes with segmentation result.
@@ -163,7 +183,10 @@ typedef std::vector<std::shared_ptr<RegionDescriptorUpdater>> DescriptorUpdaterL
 // Use for non-mutable RegionDescriptors.
 class NonMutableUpdater : public RegionDescriptorUpdater {
  public:
-   NonMutableUpdater() : RegionDescriptorUpdater(&typeid(*this)) { }
+   NonMutableUpdater() : RegionDescriptorUpdater()
+   { 
+	   setType(&typeid(*this));
+   }
   // No-op.
   virtual void InitializeUpdate(const RegionInfoList& region_list) override { }
 };
@@ -361,7 +384,10 @@ class AppearanceExtractor : public RegionDescriptorExtractor {
 class RegionSizePenalizer : public RegionDescriptor {
  public:
   RegionSizePenalizer(float penalizer)
-      : RegionDescriptor(&typeid(*this)), penalizer_(penalizer) { }
+      : RegionDescriptor(), penalizer_(penalizer) 
+  {
+	  setType(&typeid(*this));
+  }
 
   RegionSizePenalizer(float penalizer, float inv_av_region_size)
       : RegionSizePenalizer(penalizer) {
@@ -393,7 +419,10 @@ class RegionSizePenalizer : public RegionDescriptor {
 class RegionSizePenalizerExtractor : public RegionDescriptorExtractor {
  public:
   RegionSizePenalizerExtractor(float penalizer)
-      : RegionDescriptorExtractor(&typeid(*this)), penalizer_(penalizer) { }
+      : RegionDescriptorExtractor(), penalizer_(penalizer)
+  {
+	  setType(&typeid(*this));
+  }
 
   std::unique_ptr<RegionDescriptor> CreateDescriptor() const {
     return std::unique_ptr<RegionDescriptor>(new RegionSizePenalizer(penalizer_));
@@ -406,7 +435,10 @@ class RegionSizePenalizerExtractor : public RegionDescriptorExtractor {
 class RegionSizePenalizerUpdater : public RegionDescriptorUpdater {
  public:
   // Default to non-zero weight.
-  RegionSizePenalizerUpdater() : RegionDescriptorUpdater(&typeid(*this)) { }
+  RegionSizePenalizerUpdater() : RegionDescriptorUpdater()
+  {
+	  setType(&typeid(*this));
+  }
 
   // Determines average region size.
   virtual void InitializeUpdate(const RegionInfoList& region_list);

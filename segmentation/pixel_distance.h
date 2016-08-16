@@ -261,8 +261,10 @@ class SpatialCvMatDistance : public SpatialDistance<DistanceFunction, PixelDescr
   }
 
   inline void MoveTestAnchorTo(int x, int y) {
-    test_ptr_[0] = image_.ptr<data_type>(y) + stride() * x;
-    test_ptr_[1] = image_.ptr<data_type>(y + 1) + stride() * x;
+	test_ptr_[0] = ((data_type*)(image_.data + image_.step.p[0] * y)) + stride() * x;
+	test_ptr_[1] = ((data_type*)(image_.data + image_.step.p[0] * (y + 1))) + stride() * x;
+    //test_ptr_[0] = image_.ptr<data_type>(y) + stride() * x;
+    //test_ptr_[1] = image_.ptr<data_type>(y + 1) + stride() * x;
   }
 
   inline void IncrementTestAnchor() {
@@ -285,8 +287,9 @@ class SpatialCvMatDistance : public SpatialDistance<DistanceFunction, PixelDescr
 
   DistanceFunction distance_;
 
-  static_assert(DistanceFunction::stride() == PixelDescriptor::input_size(),
-                "DistanceFunction and PixelDescriptor number of channels mismatch");
+  // Unfortunately Visual Studio 2013 and under do not support constant expression
+  //static_assert(DistanceFunction::stride() == PixelDescriptor::input_size(),
+  //              "DistanceFunction and PixelDescriptor number of channels mismatch");
 };
 
 // Can be parametrized by generic DistanceFunction's and 
@@ -295,8 +298,10 @@ template <class DistanceFunction, class PixelDescriptor>
 class SpatialCvMatDistanceGeneric :
   public SpatialDistance<DistanceFunction, PixelDescriptor> {
   using SpatialDistance<DistanceFunction, PixelDescriptor>::stride;
-  using typename SpatialDistance<DistanceFunction, PixelDescriptor>::data_type;
-  using typename SpatialDistance<DistanceFunction, PixelDescriptor>::descriptor_size;
+  //using typename SpatialDistance<DistanceFunction, PixelDescriptor>::data_type;
+  //using typename SpatialDistance<DistanceFunction, PixelDescriptor>::descriptor_size;
+  using SpatialDistance<DistanceFunction, PixelDescriptor>::data_type;//
+  using SpatialDistance<DistanceFunction, PixelDescriptor>::descriptor_size;//
  public:
   SpatialCvMatDistanceGeneric(const cv::Mat& image,
                               const cv::Mat& descriptor_image,
@@ -368,9 +373,12 @@ public:
   }
 
   inline void MoveTestAnchorTo(int x, int y) {
-    test_ptr_[0] = prev_image_.ptr<data_type>(y - 1) + stride() * x;
-    test_ptr_[1] = prev_image_.ptr<data_type>(y) + stride() * x;
-    test_ptr_[2] = prev_image_.ptr<data_type>(y + 1) + stride() * x;
+	  test_ptr_[0] = ((data_type*)(prev_image_.data + prev_image_.step.p[0] * (y - 1))) + stride() * x;
+	  test_ptr_[1] = ((data_type*)(prev_image_.data + prev_image_.step.p[0] * y)) + stride() * x;
+	  test_ptr_[2] = ((data_type*)(prev_image_.data + prev_image_.step.p[0] * (y + 1))) + stride() * x;
+    //test_ptr_[0] = prev_image_.ptr<data_type>(y - 1) + stride() * x;
+    //test_ptr_[1] = prev_image_.ptr<data_type>(y) + stride() * x;
+    //test_ptr_[2] = prev_image_.ptr<data_type>(y + 1) + stride() * x;
   }
 
   inline void IncrementTestAnchor() {

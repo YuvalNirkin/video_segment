@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 
 project(base)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake")
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include("${CMAKE_MODULE_PATH}/common.cmake")
-include("${CMAKE_SOURCE_DIR}/depend.cmake")
+#include("${CMAKE_SOURCE_DIR}/depend.cmake")
 
 set(SOURCES base.cpp
             base_impl.cpp)
@@ -14,4 +14,18 @@ set(SOURCES "${SOURCES}" "${HEADERS}")
 
 add_library(base ${SOURCES})
 
-apply_dependencies(base)
+target_include_directories(base PRIVATE ${CMAKE_SOURCE_DIR})
+target_include_directories(base PUBLIC ${glog_INCLUDE_DIRS})
+target_link_libraries(base PUBLIC ${glog_LIBRARIES})
+if(UNIX)
+	target_link_libraries(base PUBLIC ${Boost_LIBRARIES})
+endif(UNIX)
+set_target_properties(base PROPERTIES DEBUG_POSTFIX _d)
+
+# Installations
+install(TARGETS base
+	 EXPORT video_segment-targets
+     RUNTIME DESTINATION bin COMPONENT dev
+     LIBRARY DESTINATION lib COMPONENT dev
+     ARCHIVE DESTINATION lib COMPONENT dev)
+install(FILES ${HEADERS} DESTINATION include/base)

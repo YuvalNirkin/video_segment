@@ -1,0 +1,28 @@
+# - Config file for the video_segment package
+# It defines the following variables
+#  VIDEO_SEGMENT_INCLUDE_DIRS - include directories for video_segment
+#  VIDEO_SEGMENT_LIBRARIES    - libraries to link against
+#  VIDEO_SEGMENT_EXECUTABLE   - the video_segment executables
+ 
+# Compute paths
+get_filename_component(VIDEO_SEGMENT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" DIRECTORY)
+#set(VIDEO_SEGMENT_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+ 
+# Include dir
+find_path(VIDEO_SEGMENT_INCLUDE_DIRS base/base.h
+	PATHS 
+	${VIDEO_SEGMENT_CMAKE_DIR}/../include
+	${VIDEO_SEGMENT_CMAKE_DIR}/include
+	) 
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET base AND NOT video_segment_BINARY_DIR)
+  include("${VIDEO_SEGMENT_CMAKE_DIR}/video_segment-targets.cmake")
+endif()
+ 
+# These are IMPORTED targets created by video_segment-targets.cmake
+set(VIDEO_SEGMENT_LIBRARIES base imagefilter segment_util segmentation video_framework)
+
+if(video_segment_FOUND)
+	message(STATUS "Found video_segment!")
+endif()

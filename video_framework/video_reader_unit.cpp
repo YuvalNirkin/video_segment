@@ -102,7 +102,7 @@ bool VideoReaderUnit::OpenStreams(StreamSet* set) {
   // Get video stream index.
   video_stream_idx_ = -1;
 
-  for (uint i = 0; i < format_context->nb_streams; ++i) {
+  for (unsigned int i = 0; i < format_context->nb_streams; ++i) {
     if (format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
       video_stream_idx_ = i;
       break;
@@ -218,42 +218,41 @@ bool VideoReaderUnit::OpenStreams(StreamSet* set) {
     LOG(ERROR) << "Could not allocate AVFrames.";
     return false;
   }
-
   int pix_fmt;
   switch (options_.pixel_format) {
     case PIXEL_FORMAT_RGB24:
-      pix_fmt = PIX_FMT_RGB24;
+      pix_fmt = AV_PIX_FMT_RGB24;//
       break;
     case PIXEL_FORMAT_BGR24:
-      pix_fmt = PIX_FMT_BGR24;
+        pix_fmt = AV_PIX_FMT_BGR24;//
       break;
     case PIXEL_FORMAT_ARGB32:
-      pix_fmt = PIX_FMT_ARGB;
+        pix_fmt = AV_PIX_FMT_ARGB;//
       break;
     case PIXEL_FORMAT_ABGR32:
-      pix_fmt = PIX_FMT_ABGR;
+        pix_fmt = AV_PIX_FMT_ABGR;//
       break;
     case PIXEL_FORMAT_RGBA32:
-      pix_fmt = PIX_FMT_RGBA;
+        pix_fmt = AV_PIX_FMT_RGBA;//
       break;
     case PIXEL_FORMAT_BGRA32:
-      pix_fmt = PIX_FMT_BGRA;
+        pix_fmt = AV_PIX_FMT_BGRA;//
       break;
     case PIXEL_FORMAT_YUV422:
-      pix_fmt = PIX_FMT_YUYV422;
+        pix_fmt = AV_PIX_FMT_YUYV422;//
       break;
     case PIXEL_FORMAT_LUMINANCE:
-      pix_fmt = PIX_FMT_GRAY8;
+        pix_fmt = AV_PIX_FMT_GRAY8;//
       break;
   }
-
-  uint8_t* bgr_buffer = (uint8_t*)av_malloc(avpicture_get_size((::PixelFormat)pix_fmt,
+  
+  uint8_t* bgr_buffer = (uint8_t*)av_malloc(avpicture_get_size((::AVPixelFormat)pix_fmt,//
                                                                output_width_,
                                                                output_height_));
 
   avpicture_fill((AVPicture*)frame_bgr_,
                  bgr_buffer,
-                 (::PixelFormat)pix_fmt,
+                 (::AVPixelFormat)pix_fmt,//
                  output_width_,
                  output_height_);
 
@@ -263,7 +262,7 @@ bool VideoReaderUnit::OpenStreams(StreamSet* set) {
                                 codec_context_->pix_fmt,
                                 output_width_,
                                 output_height_,
-                                (::PixelFormat)pix_fmt,
+                                (::AVPixelFormat)pix_fmt,//
                                 SWS_BICUBIC,
                                 nullptr,
                                 nullptr,

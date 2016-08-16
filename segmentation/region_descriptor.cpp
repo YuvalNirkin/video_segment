@@ -62,10 +62,11 @@ AppearanceExtractor::AppearanceExtractor(
     int window_size,
     const cv::Mat& rgb_frame,
     const AppearanceExtractor* prev_extractor)
-    : RegionDescriptorExtractor(&typeid(*this)),
+    : RegionDescriptorExtractor(),
       luminance_bins_(luminance_bins),
       color_bins_(color_bins),
       window_size_(window_size) {
+	setType(&typeid(*this));
   lab_frame_.reset(new cv::Mat(rgb_frame.rows,
                                rgb_frame.cols,
                                CV_8UC3));
@@ -90,7 +91,8 @@ AppearanceExtractor::AppearanceExtractor(
 
 AppearanceDescriptor3D::AppearanceDescriptor3D(int luminance_bins,
                                                int color_bins)
-    : RegionDescriptor(&typeid(*this)) {
+    : RegionDescriptor() {
+	setType(&typeid(*this));
   color_histogram_.reset(new ColorHistogram(luminance_bins, color_bins, SPARSE_HISTS));
 }
 
@@ -140,10 +142,11 @@ void AppearanceDescriptor3D::AddToRegionFeatures(RegionFeatures* descriptor) con
 WindowedAppearanceDescriptor::WindowedAppearanceDescriptor(int window_size,
                                                            int luminance_bins,
                                                            int color_bins)
-    : RegionDescriptor(&typeid(*this)),
+    : RegionDescriptor(),
       window_size_(window_size),
       luminance_bins_(luminance_bins),
       color_bins_(color_bins) {
+	setType(&typeid(*this));
 }
 
 void WindowedAppearanceDescriptor::AddFeatures(const Rasterization& raster,
@@ -335,12 +338,13 @@ void WindowedAppearanceDescriptor::AddToRegionFeatures(RegionFeatures* descripto
 
 WindowedAppearanceDescriptor::WindowedAppearanceDescriptor(
     const WindowedAppearanceDescriptor& rhs)
-    : RegionDescriptor(&typeid(*this)),
+    : RegionDescriptor(),
       window_size_(rhs.window_size_),
       start_window_(rhs.start_window_),
       compare_radius_(rhs.compare_radius_),
       luminance_bins_(rhs.luminance_bins_),
       color_bins_(rhs.color_bins_) {
+	setType(&typeid(*this));
   windows_.reserve(rhs.windows_.size());
   for (const auto& window_ptr : rhs.windows_) {
     if (window_ptr != nullptr) {
@@ -415,20 +419,23 @@ void RegionSizePenalizerUpdater::InitializeUpdate(const RegionInfoList& region_l
 }
 
 FlowExtractor::FlowExtractor(int flow_bins)
-    : RegionDescriptorExtractor(&typeid(*this)), flow_bins_(flow_bins) {
+    : RegionDescriptorExtractor(), flow_bins_(flow_bins) {
+	setType(&typeid(*this));
 }
 
 FlowExtractor::FlowExtractor(int flow_bins,
                              const cv::Mat& flow)
-    : RegionDescriptorExtractor(&typeid(*this)),
+    : RegionDescriptorExtractor(),
       flow_bins_(flow_bins),
       valid_flow_(true),
       flow_(flow) {
+	setType(&typeid(*this));
    DCHECK(!flow.empty());
 }
 
 FlowDescriptor::FlowDescriptor(int flow_bins)
-    : RegionDescriptor(&typeid(*this)), flow_bins_(flow_bins) {
+    : RegionDescriptor(), flow_bins_(flow_bins) {
+	setType(&typeid(*this));
 }
 
 void FlowDescriptor::AddFeatures(const Rasterization& raster,
@@ -557,10 +564,11 @@ RegionDescriptor* FlowDescriptor::CloneImpl() const {
 }
 
 FlowDescriptor::FlowDescriptor(const FlowDescriptor& rhs)
-    : RegionDescriptor(&typeid(*this)),
+    : RegionDescriptor(),
       start_frame_(rhs.start_frame_),
       flow_bins_(rhs.flow_bins_),
       is_populated_(rhs.is_populated_) {
+	setType(&typeid(*this));
   flow_histograms_.reserve(flow_histograms_.size());
   for (const auto& hist_ptr : rhs.flow_histograms_) {
     if (hist_ptr != nullptr) {

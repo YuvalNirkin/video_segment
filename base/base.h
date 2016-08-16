@@ -49,10 +49,12 @@
 #include <utility>
 #include <vector>
 
+/*
 #ifdef __GNUG__
 #include <cstdlib>
 #include <cxxabi.h>
 #endif // __GNUG__
+*/
 
 #include <glog/logging.h>
 
@@ -65,7 +67,11 @@ std::string demangle(const char* name);
 // base pointer to actual derived class).
 class TypedType {
  public:
-  TypedType(const std::type_info* type) : type_(type) { }
+//  TypedType(const std::type_info* type) : type_(type) { }
+	 TypedType() : type_(nullptr) { }
+
+  // Hack for Visual Studio 2015
+  void setType(const std::type_info* type) { type_ = type;  }
 
   // Checked casting to actual derived type.
   // Note: You can only cast to the actual type, not some base class via this function.

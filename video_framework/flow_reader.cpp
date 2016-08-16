@@ -186,10 +186,16 @@ bool DenseFlowUnit::OpenStreams(StreamSet* set) {
   }
 
   // Prepare flow lib.
-  flow_engine_.reset(new cv::Ptr<cv::DenseOpticalFlow>());
-  *flow_engine_ = cv::createOptFlow_DualTVL1();
-  (*flow_engine_)->set("warps", options_.num_warps);
-  (*flow_engine_)->set("iterations", options_.flow_iterations);
+  {
+      flow_engine_.reset(new cv::Ptr<cv::DenseOpticalFlow>());
+      cv::Ptr<cv::DualTVL1OpticalFlow> dualTVL1 = cv::createOptFlow_DualTVL1();
+      dualTVL1->setWarpingsNumber(options_.num_warps);
+	  *flow_engine_ = dualTVL1;
+  }
+  
+  //*flow_engine_ = cv::createOptFlow_DualTVL1();
+  //(*flow_engine_)->set("warps", options_.num_warps);
+  //(*flow_engine_)->set("iterations", options_.flow_iterations);
 
   frame_number_ = 0;
 

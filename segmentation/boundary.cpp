@@ -535,7 +535,7 @@ void BoundaryComputation::ComputeVectorization(
   };
 
   std::unordered_map<cv::Point2i, int, PointHasher> vector_mesh_map(
-      boundaries.size() * 50, PointHasher(frame_width_));
+      boundaries.size() * 50, PointHasher(this->frame_width_));
   auto* vector_mesh = seg->mutable_vector_mesh();
 
   // Convert each Boundary into a polyline.
@@ -605,9 +605,9 @@ void BoundaryComputation::ComputeVectorization(
     for (const auto& pt : polygon) {
       // Already part of the VectorMesh?
       DCHECK_GE(pt.x, 0);
-      DCHECK_LE(pt.x, frame_width_);
+      DCHECK_LE(pt.x, this->frame_width_);
       DCHECK_GE(pt.y, 0);
-      DCHECK_LE(pt.y, frame_height_);
+      DCHECK_LE(pt.y, this->frame_height_);
 
       auto pos = vector_mesh_map.find(pt);
       if (pos != vector_mesh_map.end()) {

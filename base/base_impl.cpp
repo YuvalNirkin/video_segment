@@ -55,9 +55,11 @@ std::string StringPrintf(const char* format, ...) {
   return std::string(buffer);
 }
 
+/*
 bool FileExists(const std::string& file) {
   struct stat unused;
   return stat(file.c_str(), &unused) == 0;
 }
+*/
 
 }  // namespace base.`<F4><F4>

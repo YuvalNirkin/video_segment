@@ -58,7 +58,8 @@ int PixelFormatToNumChannels(VideoPixelFormat);
 // Supports checked casting from Frame to derived Frame's via As[Ptr|Ref]<Type>.
 class Frame : public base::TypedType {
  protected:
-  Frame(const std::type_info* type, int64_t pts = 0) : base::TypedType(type), pts_(pts) {
+  Frame(const std::type_info* type, int64_t pts = 0) : base::TypedType(), pts_(pts) {
+	  setType(type);
   }
 
  public:
@@ -101,7 +102,7 @@ public:
   const uint8_t* data() const { return &data_[0]; }
   uint8_t* mutable_data() { return &data_[0]; }
 
-  int size() const { return data_.size(); }
+  int size() const { return (int)data_.size(); }
 
   DataFrame Copy() const {
     return *this;
@@ -198,7 +199,8 @@ private:
 class DataStream : public base::TypedType {
 public:
   DataStream(const std::string& stream_name)
-    : base::TypedType(&typeid(*this)), stream_name_(stream_name) {
+    : base::TypedType(), stream_name_(stream_name) {
+	  setType(&typeid(*this));
   }
 
   virtual std::string stream_name() { return stream_name_; }
@@ -217,7 +219,8 @@ public:
  protected:
   // For use by derived classes.
   DataStream(const std::type_info* type, const std::string& stream_name)
-      : base::TypedType(type), stream_name_(stream_name) {
+      : base::TypedType(), stream_name_(stream_name) {
+	  setType(type);
   }
 
  protected:
