@@ -39,7 +39,8 @@ class QMouseEvent;
 class QKeyEvent;
 
 class MainWindow : public QMainWindow {
-  Q_OBJECT
+  // Yuval
+    //Q_OBJECT
 
 public:
   explicit MainWindow(const std::string& stream_name, const bool slider = false);

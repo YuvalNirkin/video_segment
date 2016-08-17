@@ -16,6 +16,8 @@ else()
 	 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNOMINMAX")
 endif() 
 
+cmake_policy(SET CMP0020 NEW)
+
 # Optional build components
 # ===================================================
 
