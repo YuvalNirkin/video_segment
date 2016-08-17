@@ -31,3 +31,11 @@ endif(UNIX)
 set_target_properties(video_display_qt PROPERTIES DEBUG_POSTFIX _d)
 
 #apply_dependencies(video_display_qt)
+
+# Installations
+install(TARGETS video_display_qt
+	 EXPORT video_segment-targets
+     RUNTIME DESTINATION bin COMPONENT dev
+     LIBRARY DESTINATION lib COMPONENT dev
+     ARCHIVE DESTINATION lib COMPONENT dev)
+install(FILES ${HEADERS} DESTINATION include/video_display_qt)
