@@ -8,7 +8,7 @@ include(${CMAKE_MODULE_PATH}/common.cmake)
 
 #find_package(Qt4 COMPONENTS QtGui QtCore REQUIRED)
 
-#QT4_WRAP_CPP(MOC_SOURCES main_window.h)
+qt5_wrap_cpp(MOC_SOURCES main_window.h)
 
 set(SOURCES video_display_qt_unit.cpp
 	          main_window.cpp
@@ -16,9 +16,9 @@ set(SOURCES video_display_qt_unit.cpp
 
 headers_from_sources_cpp(HEADERS "${SOURCES}")
 set(SOURCES "${SOURCES}"
-            "${HEADERS}")
-#             ${MOC_SOURCES}
-#)
+            "${HEADERS}"
+             ${MOC_SOURCES}
+)
 
 add_library(video_display_qt ${SOURCES})
 

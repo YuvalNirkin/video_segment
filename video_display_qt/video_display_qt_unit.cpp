@@ -177,7 +177,9 @@ bool VideoDisplayQtUnit::PostProcess(std::list<FrameSetPtr>* append) {
 }
 
 SegmentationDisplayUnit::SegmentationDisplayUnit(
-    const SegmentationDisplayOptions& options) {
+    const SegmentationDisplayOptions& options) :
+    options_(options)
+{
   if (g_main_app == nullptr) {
     g_main_app = new QApplication(g_main_argc, g_main_argv);
   }

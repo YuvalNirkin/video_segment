@@ -21,7 +21,7 @@ if(NOT TARGET base AND NOT video_segment_BINARY_DIR)
 endif()
  
 # These are IMPORTED targets created by video_segment-targets.cmake
-set(VIDEO_SEGMENT_LIBRARIES base imagefilter segment_util segmentation video_framework)
+set(VIDEO_SEGMENT_LIBRARIES base imagefilter segment_util segmentation video_framework video_display_qt)
 
 if(video_segment_FOUND)
 	message(STATUS "Found video_segment!")

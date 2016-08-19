@@ -69,7 +69,7 @@ add_subdirectory(video_display_qt)
 
 # Add all targets to the build-tree export set
 export(TARGETS base imagefilter segment_util video_framework segmentation
-	seg_tree_sample segment_converter segment_viewer
+	seg_tree_sample segment_converter segment_viewer video_display_qt
   FILE "${PROJECT_BINARY_DIR}/video_segment-targets.cmake")
   
 # Create the *-config.cmake and *-config-version.cmake files
