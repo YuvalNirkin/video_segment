@@ -23,13 +23,10 @@ set(SOURCES "${SOURCES}" "${HEADERS}" )
 add_library(video_framework ${SOURCES})
 
 target_include_directories(video_framework PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-target_include_directories(video_framework PUBLIC ${OpenCV_INCLUDE_DIRS} ${glog_INCLUDE_DIRS}
+target_include_directories(video_framework PUBLIC ${Boost_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${glog_INCLUDE_DIRS}
 	${PROTOBUF_INCLUDE_DIRS} ${FFMPEG_INCLUDE_DIRS})
-target_link_libraries(video_framework PUBLIC ${OpenCV_LIBRARIES} ${glog_LIBRARIES}
+target_link_libraries(video_framework PUBLIC ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} ${glog_LIBRARIES}
 	${PROTOBUF_LIBRARIES} ${FFMPEG_LIBRARIES})
-if(UNIX)
-	target_link_libraries(video_framework PUBLIC ${Boost_LIBRARIES})
-endif(UNIX)
 set_target_properties(video_framework PROPERTIES DEBUG_POSTFIX _d)
 
 #apply_dependencies(video_framework)

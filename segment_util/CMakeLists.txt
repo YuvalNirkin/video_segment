@@ -22,12 +22,9 @@ protobuf_generate_cpp(PROTO_SRC PROTO_HDR segmentation.proto)
 add_library(segment_util ${SOURCES} ${PROTO_SRC} ${PROTO_HDR})
 
 target_include_directories(segment_util PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-target_include_directories(segment_util PUBLIC ${OpenCV_INCLUDE_DIRS}
+target_include_directories(segment_util PUBLIC ${Boost_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS}
 	${glog_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
-target_link_libraries(segment_util PUBLIC ${OpenCV_LIBRARIES} ${glog_LIBRARIES} ${PROTOBUF_LIBRARIES})
-if(UNIX)
-	target_link_libraries(segment_util PUBLIC ${Boost_LIBRARIES})
-endif(UNIX)
+target_link_libraries(segment_util PUBLIC ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} ${glog_LIBRARIES} ${PROTOBUF_LIBRARIES})
 set_target_properties(segment_util PROPERTIES DEBUG_POSTFIX _d)
 
 #apply_dependencies(segment_util)

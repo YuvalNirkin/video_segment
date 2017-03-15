@@ -15,11 +15,8 @@ set(SOURCES "${SOURCES}" "${HEADERS}")
 add_library(base ${SOURCES})
 
 target_include_directories(base PRIVATE ${CMAKE_SOURCE_DIR})
-target_include_directories(base PUBLIC ${glog_INCLUDE_DIRS})
-target_link_libraries(base PUBLIC ${glog_LIBRARIES})
-if(UNIX)
-	target_link_libraries(base PUBLIC ${Boost_LIBRARIES})
-endif(UNIX)
+target_include_directories(base PUBLIC ${Boost_INCLUDE_DIRS} ${glog_INCLUDE_DIRS})
+target_link_libraries(base PUBLIC ${Boost_LIBRARIES} ${glog_LIBRARIES})
 set_target_properties(base PROPERTIES DEBUG_POSTFIX _d)
 
 # Installations
