@@ -8,13 +8,18 @@ set(VIDEO_SEGMENT_MINOR_VERSION 0)
 set(VIDEO_SEGMENT_VERSION ${VIDEO_SEGMENT_MAJOR_VERSION}.${VIDEO_SEGMENT_MINOR_VERSION})
 
 # Global configurations
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
-
+# ===================================================
 if(UNIX)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/${PROJECT_NAME})
 else()
-	 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNOMINMAX")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNOMINMAX")
+  set(DEF_INSTALL_CMAKE_DIR cmake)
 endif() 
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+	"Installation directory for CMake files")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 cmake_policy(SET CMP0020 NEW)
 
@@ -82,7 +87,7 @@ configure_file(cmake/video_segment-config-version.cmake.in
 install(FILES
   "${PROJECT_BINARY_DIR}/video_segment-config.cmake"
   "${PROJECT_BINARY_DIR}/video_segment-config-version.cmake"
-  DESTINATION "cmake" COMPONENT dev)
+  DESTINATION ${INSTALL_CMAKE_DIR} COMPONENT dev)
  
 # Install the export set for use with the install-tree
-install(EXPORT video_segment-targets DESTINATION cmake COMPONENT dev)
+install(EXPORT video_segment-targets DESTINATION ${INSTALL_CMAKE_DIR} COMPONENT dev)

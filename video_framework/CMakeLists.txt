@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 
 project(video_framework)
 
+include("common")
 #set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake")
-include(${CMAKE_MODULE_PATH}/common.cmake)
+#include(${CMAKE_MODULE_PATH}/common.cmake)
 #include("${CMAKE_SOURCE_DIR}/depend.cmake")
 
 set(SOURCES video_unit.cpp

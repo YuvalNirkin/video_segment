@@ -298,10 +298,14 @@ template <class DistanceFunction, class PixelDescriptor>
 class SpatialCvMatDistanceGeneric :
   public SpatialDistance<DistanceFunction, PixelDescriptor> {
   using SpatialDistance<DistanceFunction, PixelDescriptor>::stride;
-  //using typename SpatialDistance<DistanceFunction, PixelDescriptor>::data_type;
-  //using typename SpatialDistance<DistanceFunction, PixelDescriptor>::descriptor_size;
+
+  #if defined(unix) || defined(__unix__) || defined(__unix)
+  using typename SpatialDistance<DistanceFunction, PixelDescriptor>::data_type;
+  using typename SpatialDistance<DistanceFunction, PixelDescriptor>::descriptor_size;
+  #else
   using SpatialDistance<DistanceFunction, PixelDescriptor>::data_type;//
   using SpatialDistance<DistanceFunction, PixelDescriptor>::descriptor_size;//
+  #endif
  public:
   SpatialCvMatDistanceGeneric(const cv::Mat& image,
                               const cv::Mat& descriptor_image,

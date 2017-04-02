@@ -10,9 +10,11 @@ get_filename_component(VIDEO_SEGMENT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" DIRE
  
 # Include dir
 find_path(VIDEO_SEGMENT_INCLUDE_DIRS base/base.h
-	PATHS 
-	${VIDEO_SEGMENT_CMAKE_DIR}/../include
+	PATHS
 	${VIDEO_SEGMENT_CMAKE_DIR}/include
+	${VIDEO_SEGMENT_CMAKE_DIR}/../include
+	${VIDEO_SEGMENT_CMAKE_DIR}/../../include
+	${VIDEO_SEGMENT_CMAKE_DIR}/../../../include
 	) 
 
 # Our library dependencies (contains definitions for IMPORTED targets)
